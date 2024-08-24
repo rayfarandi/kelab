@@ -12,10 +12,11 @@ const authMiddleware = (req, res, next) =>{
             throw new Error('invalid token')
         }
         const token = rawToken.slice(prefix.length) //memotong kata "Bearer " untuk mengambil token
-        req.user = jwt.verify(token, process.env.JWT_SECRET || 'secretKey') // verify token
+
+        req.user = jwt.verify(token, process.env.APP_SECRET || 'secretKey')// verifikasi token.
         // jika verifikasi berhasil jwt akan mengembalikan payload dan server bisa mengakses data payload misal untuk di gunakan di rolekCheck.middleware untuk mengecek role user
         // req.user = membuat properti baru(user) di object request yg berisi data payload
-        // server bisa mengakses req.user.role unutk mendapatkan data role user
+        // server bisa mengakses req.user.role unutk mendapatkan data role user                                                                                                 
         next() //melanjutkan ke  middleware atau penanganan selanjutnya
     } catch(error){ //jika ada error maka akan menangkap error dan menjalankan fungsi errorHandler
         console.log(error)
